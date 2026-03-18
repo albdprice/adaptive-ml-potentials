@@ -1,0 +1,263 @@
+=== DFT Diatomic Scan ===
+Job ID: 8247180
+Node: c174.nibi.sharcnet
+Start: Fri 06 Feb 2026 07:34:26 AM EST
+
+Python: /scratch/albd/dft_diatomics_venv/bin/python
+PySCF version: 2.12.0
+
+======================================================================
+DIATOMIC BINDING CURVE SCANNER
+======================================================================
+Level: pbe/def2-svp
+Points per curve: 20
+Molecules: 30
+
+  Scanning H2 (H-H): r = 0.52 to 2.22 A, spin=0, 20 points...
+    H2: E_c=4.623 eV, r_e=0.758 A, l=0.314 A, residual=0.3201 eV
+  Scanning LiH (Li-H): r = 1.12 to 4.80 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=4.413 A
+    WARNING: SCF not converged at r=4.606 A
+    LiH: E_c=2.411 eV, r_e=1.577 A, l=0.535 A, residual=0.2170 eV
+  Scanning BeH (Be-H): r = 0.94 to 4.02 A, spin=1, 20 points...
+    BeH: E_c=2.438 eV, r_e=1.333 A, l=0.389 A, residual=0.0723 eV
+  Scanning BH (B-H): r = 0.86 to 3.69 A, spin=0, 20 points...
+    BH: E_c=3.631 eV, r_e=1.250 A, l=0.401 A, residual=0.3673 eV
+  Scanning CH (C-H): r = 0.78 to 3.36 A, spin=1, 20 points...
+    CH: E_c=3.693 eV, r_e=1.142 A, l=0.350 A, residual=0.0712 eV
+  Scanning NH (N-H): r = 0.73 to 3.12 A, spin=2, 20 points...
+    NH: E_c=3.780 eV, r_e=1.053 A, l=0.309 A, residual=0.0532 eV
+  Scanning OH (O-H): r = 0.68 to 2.91 A, spin=1, 20 points...
+    OH: E_c=4.641 eV, r_e=0.991 A, l=0.304 A, residual=0.0401 eV
+  Scanning HF (H-F): r = 0.64 to 2.76 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=2.426 A
+    WARNING: SCF not converged at r=2.537 A
+    WARNING: SCF not converged at r=2.649 A
+    WARNING: SCF not converged at r=2.760 A
+    HF: E_c=5.986 eV, r_e=0.942 A, l=0.310 A, residual=0.1987 eV
+  Scanning NaH (Na-H): r = 1.32 to 5.67 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=4.755 A
+    WARNING: SCF not converged at r=5.212 A
+    NaH: E_c=1.905 eV, r_e=1.839 A, l=0.541 A, residual=0.2871 eV
+  Scanning MgH (Mg-H): r = 1.21 to 5.19 A, spin=1, 20 points...
+    MgH: E_c=1.377 eV, r_e=1.720 A, l=0.422 A, residual=0.0402 eV
+  Scanning AlH (Al-H): r = 1.15 to 4.95 A, spin=0, 20 points...
+    AlH: E_c=3.105 eV, r_e=1.663 A, l=0.514 A, residual=0.3050 eV
+  Scanning SiH (Si-H): r = 1.06 to 4.56 A, spin=1, 20 points...
+    SiH: E_c=3.134 eV, r_e=1.536 A, l=0.441 A, residual=0.0717 eV
+  Scanning PH (P-H): r = 0.99 to 4.26 A, spin=2, 20 points...
+    PH: E_c=3.229 eV, r_e=1.428 A, l=0.383 A, residual=0.0745 eV
+  Scanning SH (S-H): r = 0.94 to 4.02 A, spin=1, 20 points...
+    SH: E_c=3.783 eV, r_e=1.348 A, l=0.364 A, residual=0.0765 eV
+  Scanning HCl (H-Cl): r = 0.89 to 3.81 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=2.888 A
+    WARNING: SCF not converged at r=3.041 A
+    WARNING: SCF not converged at r=3.195 A
+    WARNING: SCF not converged at r=3.349 A
+    WARNING: SCF not converged at r=3.503 A
+    WARNING: SCF not converged at r=3.656 A
+    WARNING: SCF not converged at r=3.810 A
+    HCl: E_c=4.582 eV, r_e=1.284 A, l=0.357 A, residual=0.1950 eV
+  Scanning KH (K-H): r = 1.57 to 6.72 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=5.907 A
+    WARNING: SCF not converged at r=6.178 A
+    WARNING: SCF not converged at r=6.720 A
+    KH: E_c=1.718 eV, r_e=2.225 A, l=0.632 A, residual=0.1943 eV
+  Scanning Li2 (Li-Li): r = 1.87 to 8.01 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=8.010 A
+    Li2: E_c=0.901 eV, r_e=2.595 A, l=0.660 A, residual=0.2530 eV
+  Scanning N2 (N-N): r = 0.77 to 3.30 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=2.767 A
+    WARNING: SCF not converged at r=2.901 A
+    WARNING: SCF not converged at r=3.034 A
+    WARNING: SCF not converged at r=3.167 A
+    WARNING: SCF not converged at r=3.300 A
+    N2: E_c=10.550 eV, r_e=1.075 A, l=0.237 A, residual=1.9578 eV
+  Scanning O2 (O-O): r = 0.85 to 3.63 A, spin=2, 20 points...
+    WARNING: SCF not converged at r=2.165 A
+    WARNING: SCF not converged at r=2.312 A
+    WARNING: SCF not converged at r=3.044 A
+    O2: E_c=6.542 eV, r_e=1.198 A, l=0.264 A, residual=0.6644 eV
+  Scanning F2 (F-F): r = 0.99 to 4.23 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=2.011 A
+    WARNING: SCF not converged at r=2.182 A
+    WARNING: SCF not converged at r=2.352 A
+    WARNING: SCF not converged at r=2.523 A
+    WARNING: SCF not converged at r=2.694 A
+    WARNING: SCF not converged at r=2.865 A
+    WARNING: SCF not converged at r=3.035 A
+    WARNING: SCF not converged at r=3.206 A
+    WARNING: SCF not converged at r=3.377 A
+    WARNING: SCF not converged at r=3.547 A
+    WARNING: SCF not converged at r=3.718 A
+    WARNING: SCF not converged at r=3.889 A
+    WARNING: SCF not converged at r=4.059 A
+    WARNING: SCF not converged at r=4.230 A
+    WARNING: Too many unconverged points for F2
+  Scanning Na2 (Na-Na): r = 2.16 to 9.24 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=7.749 A
+    WARNING: SCF not converged at r=8.121 A
+    WARNING: SCF not converged at r=8.494 A
+    WARNING: SCF not converged at r=8.867 A
+    WARNING: SCF not converged at r=9.240 A
+    Na2: E_c=0.811 eV, r_e=2.918 A, l=0.736 A, residual=0.1551 eV
+  Scanning Cl2 (Cl-Cl): r = 1.39 to 5.97 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=3.079 A
+    WARNING: SCF not converged at r=3.320 A
+    WARNING: SCF not converged at r=3.561 A
+    WARNING: SCF not converged at r=3.802 A
+    WARNING: SCF not converged at r=4.043 A
+    WARNING: SCF not converged at r=4.284 A
+    WARNING: SCF not converged at r=4.525 A
+    WARNING: SCF not converged at r=4.766 A
+    WARNING: SCF not converged at r=5.006 A
+    WARNING: SCF not converged at r=5.247 A
+    WARNING: SCF not converged at r=5.488 A
+    WARNING: SCF not converged at r=5.729 A
+    WARNING: SCF not converged at r=5.970 A
+    WARNING: Too many unconverged points for Cl2
+  Scanning LiF (Li-F): r = 1.09 to 4.68 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=3.358 A
+    WARNING: SCF not converged at r=3.547 A
+    WARNING: SCF not converged at r=3.736 A
+    WARNING: SCF not converged at r=3.925 A
+    WARNING: SCF not converged at r=4.113 A
+    WARNING: SCF not converged at r=4.302 A
+    WARNING: SCF not converged at r=4.491 A
+    WARNING: SCF not converged at r=4.680 A
+    LiF: E_c=5.819 eV, r_e=1.654 A, l=0.637 A, residual=0.2884 eV
+  Scanning NaF (Na-F): r = 1.35 to 5.79 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=3.454 A
+    WARNING: SCF not converged at r=3.687 A
+    WARNING: SCF not converged at r=3.921 A
+    WARNING: SCF not converged at r=4.155 A
+    WARNING: SCF not converged at r=4.388 A
+    WARNING: SCF not converged at r=4.622 A
+    WARNING: SCF not converged at r=4.855 A
+    WARNING: SCF not converged at r=5.089 A
+    WARNING: SCF not converged at r=5.323 A
+    WARNING: SCF not converged at r=5.556 A
+    WARNING: SCF not converged at r=5.790 A
+    WARNING: Too many unconverged points for NaF
+  Scanning NaCl (Na-Cl): r = 1.65 to 7.08 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=4.509 A
+    WARNING: SCF not converged at r=4.795 A
+    WARNING: SCF not converged at r=5.080 A
+    WARNING: SCF not converged at r=5.366 A
+    WARNING: SCF not converged at r=5.652 A
+    WARNING: SCF not converged at r=5.937 A
+    WARNING: SCF not converged at r=6.223 A
+    WARNING: SCF not converged at r=6.509 A
+    WARNING: SCF not converged at r=6.794 A
+    WARNING: SCF not converged at r=7.080 A
+    NaCl: E_c=4.165 eV, r_e=2.475 A, l=0.766 A, residual=0.2398 eV
+  Scanning CO (C-O): r = 0.79 to 3.39 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=2.843 A
+    WARNING: SCF not converged at r=2.980 A
+    WARNING: SCF not converged at r=3.116 A
+    WARNING: SCF not converged at r=3.253 A
+    WARNING: SCF not converged at r=3.390 A
+    CO: E_c=12.054 eV, r_e=1.144 A, l=0.302 A, residual=0.4966 eV
+  Scanning NO (N-O): r = 0.80 to 3.45 A, spin=1, 20 points...
+    NO: E_c=7.620 eV, r_e=1.156 A, l=0.261 A, residual=0.0371 eV
+  Scanning CN (C-N): r = 0.82 to 3.51 A, spin=1, 20 points...
+    CN: E_c=8.612 eV, r_e=1.184 A, l=0.287 A, residual=0.0786 eV
+  Scanning BF (B-F): r = 0.89 to 3.81 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=3.349 A
+    WARNING: SCF not converged at r=3.656 A
+    WARNING: SCF not converged at r=3.810 A
+    BF: E_c=8.340 eV, r_e=1.362 A, l=0.448 A, residual=0.4769 eV
+  Scanning AlF (Al-F): r = 1.15 to 4.95 A, spin=0, 20 points...
+    WARNING: SCF not converged at r=4.151 A
+    WARNING: SCF not converged at r=4.351 A
+    WARNING: SCF not converged at r=4.551 A
+    WARNING: SCF not converged at r=4.750 A
+    WARNING: SCF not converged at r=4.950 A
+    AlF: E_c=7.225 eV, r_e=1.811 A, l=0.563 A, residual=0.5971 eV
+
+Completed in 408.4s
+Successful: 27/30
+Failed: ['F2', 'Cl2', 'NaF']
+Results saved to: data/diatomic_curves.npz
+Summary saved to: data/diatomic_curves_summary.txt
+
+=== Scan complete ===
+End: Fri 06 Feb 2026 07:41:22 AM EST
+
+=== Running ML comparison ===
+======================================================================
+ADAPTIVE vs DIRECT LEARNING ON DIATOMIC BINDING CURVES
+======================================================================
+Loading DFT data from: data/diatomic_curves.npz
+
+Molecules: 27
+Names: [np.str_('H2'), np.str_('LiH'), np.str_('BeH'), np.str_('BH'), np.str_('CH'), np.str_('NH'), np.str_('OH'), np.str_('HF'), np.str_('NaH'), np.str_('MgH'), np.str_('AlH'), np.str_('SiH'), np.str_('PH'), np.str_('SH'), np.str_('HCl'), np.str_('KH'), np.str_('Li2'), np.str_('N2'), np.str_('O2'), np.str_('Na2'), np.str_('LiF'), np.str_('NaCl'), np.str_('CO'), np.str_('NO'), np.str_('CN'), np.str_('BF'), np.str_('AlF')]
+Descriptors shape: (27, 14)
+
+======================================================================
+LEAVE-ONE-OUT CROSS-VALIDATION
+======================================================================
+      H2: Direct MAE=0.0741 eV, Adaptive MAE=0.5871 eV, Ratio=0.13x
+     LiH: Direct MAE=0.3435 eV, Adaptive MAE=0.4268 eV, Ratio=0.80x
+     BeH: Direct MAE=0.3058 eV, Adaptive MAE=0.3043 eV, Ratio=1.01x
+      BH: Direct MAE=0.1182 eV, Adaptive MAE=0.0898 eV, Ratio=1.32x
+      CH: Direct MAE=0.1989 eV, Adaptive MAE=0.0275 eV, Ratio=7.23x
+      NH: Direct MAE=0.6991 eV, Adaptive MAE=0.0649 eV, Ratio=10.77x
+      OH: Direct MAE=0.3861 eV, Adaptive MAE=0.0811 eV, Ratio=4.76x
+      HF: Direct MAE=1.9543 eV, Adaptive MAE=0.3915 eV, Ratio=4.99x
+     NaH: Direct MAE=0.3293 eV, Adaptive MAE=0.4294 eV, Ratio=0.77x
+     MgH: Direct MAE=0.2193 eV, Adaptive MAE=0.6696 eV, Ratio=0.33x
+     AlH: Direct MAE=0.2899 eV, Adaptive MAE=0.3610 eV, Ratio=0.80x
+     SiH: Direct MAE=0.2140 eV, Adaptive MAE=0.0512 eV, Ratio=4.18x
+      PH: Direct MAE=0.9829 eV, Adaptive MAE=0.0251 eV, Ratio=39.17x
+      SH: Direct MAE=0.0467 eV, Adaptive MAE=0.3357 eV, Ratio=0.14x
+     HCl: Direct MAE=2.3838 eV, Adaptive MAE=0.2322 eV, Ratio=10.26x
+      KH: Direct MAE=1.0040 eV, Adaptive MAE=1.3374 eV, Ratio=0.75x
+     Li2: Direct MAE=0.8090 eV, Adaptive MAE=0.6175 eV, Ratio=1.31x
+      N2: Direct MAE=1.7842 eV, Adaptive MAE=2.2429 eV, Ratio=0.80x
+      O2: Direct MAE=0.3162 eV, Adaptive MAE=0.0373 eV, Ratio=8.47x
+     Na2: Direct MAE=0.9920 eV, Adaptive MAE=1.4598 eV, Ratio=0.68x
+     LiF: Direct MAE=0.2655 eV, Adaptive MAE=1.0445 eV, Ratio=0.25x
+    NaCl: Direct MAE=0.2818 eV, Adaptive MAE=1.1657 eV, Ratio=0.24x
+      CO: Direct MAE=0.0637 eV, Adaptive MAE=0.8146 eV, Ratio=0.08x
+      NO: Direct MAE=0.5552 eV, Adaptive MAE=0.0707 eV, Ratio=7.85x
+      CN: Direct MAE=0.3038 eV, Adaptive MAE=0.9276 eV, Ratio=0.33x
+      BF: Direct MAE=0.2987 eV, Adaptive MAE=0.2682 eV, Ratio=1.11x
+     AlF: Direct MAE=1.1816 eV, Adaptive MAE=0.0938 eV, Ratio=12.59x
+
+======================================================================
+LEAVE-GROUP-OUT (EXTRAPOLATION)
+======================================================================
+
+  Train (16): [np.str_('H2'), np.str_('LiH'), np.str_('BeH'), np.str_('BH'), np.str_('CH'), np.str_('NH'), np.str_('OH'), np.str_('HF'), np.str_('Li2'), np.str_('N2'), np.str_('O2'), np.str_('LiF'), np.str_('CO'), np.str_('NO'), np.str_('CN'), np.str_('BF')]
+  Test  (11): [np.str_('NaH'), np.str_('MgH'), np.str_('AlH'), np.str_('SiH'), np.str_('PH'), np.str_('SH'), np.str_('HCl'), np.str_('KH'), np.str_('Na2'), np.str_('NaCl'), np.str_('AlF')]
+
+  Molecule   Direct MAE   Adaptive MAE    Ratio
+  --------------------------------------------------
+       NaH       1.1211         0.7400     1.51x
+       MgH       1.0509         1.4427     0.73x
+       AlH       0.7753         0.3280     2.36x
+       SiH       0.4610         0.0528     8.73x
+        PH       0.0251         0.3371     0.07x
+        SH       0.6389         0.1130     5.66x
+       HCl       2.8459         0.1097    25.94x
+        KH       2.0867         2.4339     0.86x
+       Na2       1.0060         6.5923     0.15x
+      NaCl       0.1260         4.9505     0.03x
+       AlF       0.3233         0.4863     0.66x
+
+  Mean:    Direct MAE=0.9509, Adaptive MAE=1.5988, Ratio=0.59x
+
+Figure saved: figures/fig_diatomic_comparison.png
+
+======================================================================
+FINAL SUMMARY
+======================================================================
+
+LOO: Direct MAE = 0.6075 eV, Adaptive MAE = 0.5244 eV, Ratio = 1.16x
+LGO: Direct MAE = 0.9509 eV, Adaptive MAE = 1.5988 eV, Ratio = 0.59x
+
+Adaptive wins on 14/27 molecules (LOO)
+
+=== All done ===
+End: Fri 06 Feb 2026 07:41:29 AM EST

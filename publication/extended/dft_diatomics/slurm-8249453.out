@@ -1,0 +1,225 @@
+=== DFT Diatomic Scan ===
+Job ID: 8249453
+Node: c377.nibi.sharcnet
+Start: Fri 06 Feb 2026 09:39:06 AM EST
+
+Python: /scratch/albd/dft_diatomics_venv/bin/python
+PySCF version: 2.12.0
+
+======================================================================
+DIATOMIC BINDING CURVE SCANNER
+======================================================================
+Level: pbe/def2-svp
+Points per curve: 25
+Molecules: 30
+
+  Scanning H2 (H-H): r = 0.52 to 3.70 A, spin=0, 25 points...
+    H2: E_c=4.740 eV, r_e=0.747 A, l=0.296 A, residual=1.1245 eV
+  Scanning LiH (Li-H): r = 1.12 to 8.00 A, spin=0, 25 points...
+    LiH: E_c=2.382 eV, r_e=1.586 A, l=0.553 A, residual=0.0650 eV
+  Scanning BeH (Be-H): r = 0.94 to 6.70 A, spin=1, 25 points...
+    BeH: E_c=2.437 eV, r_e=1.332 A, l=0.389 A, residual=0.0534 eV
+  Scanning BH (B-H): r = 0.86 to 6.15 A, spin=0, 25 points...
+    BH: E_c=3.630 eV, r_e=1.248 A, l=0.401 A, residual=0.2892 eV
+  Scanning CH (C-H): r = 0.78 to 5.60 A, spin=1, 25 points...
+    CH: E_c=3.690 eV, r_e=1.142 A, l=0.350 A, residual=0.0525 eV
+  Scanning NH (N-H): r = 0.73 to 5.20 A, spin=2, 25 points...
+    NH: E_c=3.777 eV, r_e=1.053 A, l=0.309 A, residual=0.0392 eV
+  Scanning OH (O-H): r = 0.68 to 4.85 A, spin=1, 25 points...
+    OH: E_c=4.636 eV, r_e=0.991 A, l=0.304 A, residual=0.0279 eV
+  Scanning HF (H-F): r = 0.64 to 4.60 A, spin=0, 25 points...
+    HF: E_c=5.966 eV, r_e=0.944 A, l=0.312 A, residual=0.1452 eV
+  Scanning NaH (Na-H): r = 1.32 to 9.45 A, spin=0, 25 points...
+    NaH: E_c=1.889 eV, r_e=1.847 A, l=0.554 A, residual=0.0939 eV
+  Scanning MgH (Mg-H): r = 1.21 to 8.65 A, spin=1, 25 points...
+    MgH: E_c=1.379 eV, r_e=1.718 A, l=0.421 A, residual=0.0293 eV
+  Scanning AlH (Al-H): r = 1.15 to 8.25 A, spin=0, 25 points...
+    AlH: E_c=3.103 eV, r_e=1.662 A, l=0.515 A, residual=0.2272 eV
+  Scanning SiH (Si-H): r = 1.06 to 7.60 A, spin=1, 25 points...
+    SiH: E_c=3.133 eV, r_e=1.535 A, l=0.441 A, residual=0.0531 eV
+  Scanning PH (P-H): r = 0.99 to 7.10 A, spin=2, 25 points...
+    PH: E_c=3.228 eV, r_e=1.427 A, l=0.383 A, residual=0.0550 eV
+  Scanning SH (S-H): r = 0.94 to 6.70 A, spin=1, 25 points...
+    SH: E_c=3.781 eV, r_e=1.348 A, l=0.364 A, residual=0.0566 eV
+  Scanning HCl (H-Cl): r = 0.89 to 6.35 A, spin=0, 25 points...
+    HCl: E_c=4.592 eV, r_e=1.280 A, l=0.353 A, residual=0.1688 eV
+  Scanning KH (K-H): r = 1.57 to 11.20 A, spin=0, 25 points...
+    KH: E_c=1.699 eV, r_e=2.244 A, l=0.655 A, residual=0.0506 eV
+  Scanning Li2 (Li-Li): r = 1.87 to 13.35 A, spin=0, 25 points...
+    Li2: E_c=0.905 eV, r_e=2.587 A, l=0.659 A, residual=0.1893 eV
+  Scanning N2 (N-N): r = 0.77 to 5.50 A, spin=0, 25 points...
+    N2: E_c=10.593 eV, r_e=1.072 A, l=0.236 A, residual=2.0859 eV
+  Scanning O2 (O-O): r = 0.85 to 6.05 A, spin=2, 25 points...
+    O2: E_c=6.538 eV, r_e=1.193 A, l=0.260 A, residual=0.7047 eV
+  Scanning F2 (F-F): r = 0.99 to 7.05 A, spin=0, 25 points...
+    F2: E_c=2.297 eV, r_e=1.366 A, l=0.244 A, residual=0.2861 eV
+  Scanning Na2 (Na-Na): r = 2.16 to 15.40 A, spin=0, 25 points...
+    Na2: E_c=0.820 eV, r_e=2.898 A, l=0.723 A, residual=0.1422 eV
+  Scanning Cl2 (Cl-Cl): r = 1.39 to 9.95 A, spin=0, 25 points...
+    Cl2: E_c=2.630 eV, r_e=2.022 A, l=0.370 A, residual=0.1115 eV
+  Scanning LiF (Li-F): r = 1.09 to 7.80 A, spin=0, 25 points...
+    LiF: E_c=5.568 eV, r_e=1.723 A, l=0.727 A, residual=0.9989 eV
+  Scanning NaF (Na-F): r = 1.35 to 9.65 A, spin=0, 25 points...
+    NaF: E_c=4.606 eV, r_e=2.179 A, l=0.792 A, residual=0.5745 eV
+  Scanning NaCl (Na-Cl): r = 1.65 to 11.80 A, spin=0, 25 points...
+    NaCl: E_c=3.973 eV, r_e=2.609 A, l=0.895 A, residual=0.5022 eV
+  Scanning CO (C-O): r = 0.79 to 5.65 A, spin=0, 25 points...
+    WARNING: SCF not converged at r=3.828 A
+    CO: E_c=11.998 eV, r_e=1.150 A, l=0.306 A, residual=0.2145 eV
+  Scanning NO (N-O): r = 0.80 to 5.75 A, spin=1, 25 points...
+    NO: E_c=7.613 eV, r_e=1.156 A, l=0.261 A, residual=0.0273 eV
+  Scanning CN (C-N): r = 0.82 to 5.85 A, spin=1, 25 points...
+    CN: E_c=8.607 eV, r_e=1.162 A, l=0.269 A, residual=0.8895 eV
+  Scanning BF (B-F): r = 0.89 to 6.35 A, spin=0, 25 points...
+    WARNING: SCF not converged at r=3.392 A
+    WARNING: SCF not converged at r=3.619 A
+    BF: E_c=8.347 eV, r_e=1.365 A, l=0.445 A, residual=0.3245 eV
+  Scanning AlF (Al-F): r = 1.15 to 8.25 A, spin=0, 25 points...
+    WARNING: SCF not converged at r=4.111 A
+    AlF: E_c=7.183 eV, r_e=1.828 A, l=0.573 A, residual=0.5621 eV
+
+Completed in 997.5s
+Successful: 30/30
+Results saved to: data/diatomic_curves.npz
+Summary saved to: data/diatomic_curves_summary.txt
+
+=== Scan complete ===
+End: Fri 06 Feb 2026 09:55:50 AM EST
+
+=== Running ML comparison ===
+======================================================================
+ADAPTIVE vs DIRECT LEARNING ON DIATOMIC BINDING CURVES
+======================================================================
+Loading DFT data from: data/diatomic_curves.npz
+
+Loaded 30 molecules
+
+======================================================================
+DATA QUALITY ASSESSMENT
+======================================================================
+
+    Name N_pts  Res[eV]    E_c    r_e     l       Status
+  ------------------------------------------------------------
+      H2    25    1.125   4.74  0.747 0.296 EXCLUDED(fit)
+     LiH    25    0.065   2.38  1.586 0.553        clean
+     BeH    25    0.053   2.44  1.332 0.389        clean
+      BH    25    0.289   3.63  1.248 0.401         good
+      CH    25    0.052   3.69  1.142 0.350        clean
+      NH    25    0.039   3.78  1.053 0.309        clean
+      OH    25    0.028   4.64  0.991 0.304        clean
+      HF    25    0.145   5.97  0.944 0.312         good
+     NaH    25    0.094   1.89  1.847 0.554        clean
+     MgH    25    0.029   1.38  1.718 0.421        clean
+     AlH    25    0.227   3.10  1.662 0.515         good
+     SiH    25    0.053   3.13  1.535 0.441        clean
+      PH    25    0.055   3.23  1.427 0.383        clean
+      SH    25    0.057   3.78  1.348 0.364        clean
+     HCl    25    0.169   4.59  1.280 0.353         good
+      KH    25    0.051   1.70  2.244 0.655        clean
+     Li2    25    0.189   0.91  2.587 0.659         good
+      N2    25    2.086  10.59  1.072 0.236 EXCLUDED(fit)
+      O2    25    0.705   6.54  1.193 0.260     marginal
+      F2    25    0.286   2.30  1.366 0.244         good
+     Na2    25    0.142   0.82  2.898 0.723         good
+     Cl2    25    0.111   2.63  2.022 0.370         good
+     LiF    25    0.999   5.57  1.723 0.727     marginal
+     NaF    25    0.575   4.61  2.179 0.792     marginal
+    NaCl    25    0.502   3.97  2.609 0.895     marginal
+      CO    24    0.215  12.00  1.150 0.306         good
+      NO    25    0.027   7.61  1.156 0.261        clean
+      CN    25    0.890   8.61  1.162 0.269     marginal
+      BF    23    0.325   8.35  1.365 0.445     marginal
+     AlF    24    0.562   7.18  1.828 0.573     marginal
+
+  Excluded 2 molecules:
+    H2: Rose residual 1.12 > 1.0
+    N2: Rose residual 2.09 > 1.0
+
+  Keeping 28/30 molecules for ML comparison
+
+Using 28 molecules: ['LiH', 'BeH', 'BH', 'CH', 'NH', 'OH', 'HF', 'NaH', 'MgH', 'AlH', 'SiH', 'PH', 'SH', 'HCl', 'KH', 'Li2', 'O2', 'F2', 'Na2', 'Cl2', 'LiF', 'NaF', 'NaCl', 'CO', 'NO', 'CN', 'BF', 'AlF']
+Descriptors shape: (28, 14)
+
+======================================================================
+LEAVE-ONE-OUT CROSS-VALIDATION
+======================================================================
+
+  Scaled grid (r / r_cov_sum):
+    Overlap: 0.866 to 3.979 (width 3.113)
+    LiH: r = 1.38 to 6.33 A (r_cov_sum = 1.59)
+    KH: r = 2.03 to 9.31 A (r_cov_sum = 2.34)
+    AlF: r = 1.54 to 7.08 A (r_cov_sum = 1.78)
+     LiH: Direct MAE=0.3448 eV, Adaptive MAE=0.2669 eV, Ratio=1.29x
+     BeH: Direct MAE=0.2377 eV, Adaptive MAE=0.2418 eV, Ratio=0.98x
+      BH: Direct MAE=0.4243 eV, Adaptive MAE=0.3510 eV, Ratio=1.21x
+      CH: Direct MAE=0.3364 eV, Adaptive MAE=0.1211 eV, Ratio=2.78x
+      NH: Direct MAE=0.1391 eV, Adaptive MAE=0.1288 eV, Ratio=1.08x
+      OH: Direct MAE=0.1564 eV, Adaptive MAE=0.2067 eV, Ratio=0.76x
+      HF: Direct MAE=0.4317 eV, Adaptive MAE=0.5270 eV, Ratio=0.82x
+     NaH: Direct MAE=0.2230 eV, Adaptive MAE=0.0988 eV, Ratio=2.26x
+     MgH: Direct MAE=0.3046 eV, Adaptive MAE=0.2168 eV, Ratio=1.40x
+     AlH: Direct MAE=0.3046 eV, Adaptive MAE=0.3226 eV, Ratio=0.94x
+     SiH: Direct MAE=0.1622 eV, Adaptive MAE=0.0990 eV, Ratio=1.64x
+      PH: Direct MAE=0.3451 eV, Adaptive MAE=0.1979 eV, Ratio=1.74x
+      SH: Direct MAE=0.1505 eV, Adaptive MAE=0.0918 eV, Ratio=1.64x
+     HCl: Direct MAE=0.3500 eV, Adaptive MAE=0.2813 eV, Ratio=1.24x
+      KH: Direct MAE=0.5051 eV, Adaptive MAE=0.3464 eV, Ratio=1.46x
+     Li2: Direct MAE=0.6594 eV, Adaptive MAE=0.5179 eV, Ratio=1.27x
+      O2: Direct MAE=0.6051 eV, Adaptive MAE=0.7120 eV, Ratio=0.85x
+      F2: Direct MAE=1.3368 eV, Adaptive MAE=0.8187 eV, Ratio=1.63x
+     Na2: Direct MAE=0.4383 eV, Adaptive MAE=0.1894 eV, Ratio=2.31x
+     Cl2: Direct MAE=0.4416 eV, Adaptive MAE=0.5659 eV, Ratio=0.78x
+     LiF: Direct MAE=0.6385 eV, Adaptive MAE=0.8344 eV, Ratio=0.77x
+     NaF: Direct MAE=0.3131 eV, Adaptive MAE=0.6110 eV, Ratio=0.51x
+    NaCl: Direct MAE=0.2986 eV, Adaptive MAE=0.5349 eV, Ratio=0.56x
+      CO: Direct MAE=0.6724 eV, Adaptive MAE=0.5942 eV, Ratio=1.13x
+      NO: Direct MAE=0.4484 eV, Adaptive MAE=0.2095 eV, Ratio=2.14x
+      CN: Direct MAE=1.3828 eV, Adaptive MAE=1.2719 eV, Ratio=1.09x
+      BF: Direct MAE=0.5086 eV, Adaptive MAE=0.1511 eV, Ratio=3.37x
+     AlF: Direct MAE=0.4577 eV, Adaptive MAE=0.4848 eV, Ratio=0.94x
+
+======================================================================
+LEAVE-GROUP-OUT (EXTRAPOLATION)
+======================================================================
+
+  Scaled grid (r / r_cov_sum):
+    Overlap: 0.866 to 3.979 (width 3.113)
+    LiH: r = 1.38 to 6.33 A (r_cov_sum = 1.59)
+    KH: r = 2.03 to 9.31 A (r_cov_sum = 2.34)
+    AlF: r = 1.54 to 7.08 A (r_cov_sum = 1.78)
+
+  Train (15): ['LiH', 'BeH', 'BH', 'CH', 'NH', 'OH', 'HF', 'Li2', 'O2', 'F2', 'LiF', 'CO', 'NO', 'CN', 'BF']
+  Test  (13): ['NaH', 'MgH', 'AlH', 'SiH', 'PH', 'SH', 'HCl', 'KH', 'Na2', 'Cl2', 'NaF', 'NaCl', 'AlF']
+
+  Molecule   Direct MAE   Adaptive MAE    Ratio
+  --------------------------------------------------
+       NaH       0.5673         0.1277     4.44x
+       MgH       0.2889         0.3304     0.87x
+       AlH       0.6715         0.5712     1.18x
+       SiH       0.7083         0.4077     1.74x
+        PH       0.6880         0.2099     3.28x
+        SH       0.5710         0.3315     1.72x
+       HCl       0.1702         0.2553     0.67x
+        KH       1.1197         0.0809    13.83x
+       Na2       1.1869         0.6051     1.96x
+       Cl2       1.3949         0.7586     1.84x
+       NaF       0.7435         0.6393     1.16x
+      NaCl       1.3626         0.9871     1.38x
+       AlF       1.2032         0.8144     1.48x
+
+  Mean:    Direct MAE=0.8212, Adaptive MAE=0.4707, Ratio=1.74x
+
+Figure saved: figures/fig_diatomic_comparison.png
+
+======================================================================
+FINAL SUMMARY
+======================================================================
+
+LOO: Direct MAE = 0.4506 eV, Adaptive MAE = 0.3926 eV, Ratio = 1.15x
+LGO: Direct MAE = 0.8212 eV, Adaptive MAE = 0.4707 eV, Ratio = 1.74x
+
+Adaptive wins on 18/28 molecules (LOO)
+Adaptive wins on 11/13 molecules (LGO)
+
+=== All done ===
+End: Fri 06 Feb 2026 09:55:55 AM EST

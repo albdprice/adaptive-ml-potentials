@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.egg-info/
+.DS_Store
+*.swp
+*.swo
+.claude/
+*.pdf
+Master*
+*thesis*
+*Thesis*

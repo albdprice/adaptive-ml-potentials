@@ -1,0 +1,178 @@
+Position-Dependent Curvature Experiments: Summary for Anatole
+=============================================================
+
+GOAL
+----
+Test whether decomposing E_elec(r) = a(r) * (r - r0)^2 and learning the
+curvature a as a function of (Z, r) can improve extrapolation compared to
+learning V_total or E_elec directly.
+
+
+DATASET
+-------
+Synthetic homonuclear diatomics using Morse potentials.
+
+  V_total(r) = D_e * (1 - exp(-alpha*(r - R_e)))^2 - D_e    (Morse)
+  V_nn(r)    = Z^2 / r                                       (nuclear repulsion, exact)
+  E_elec(r)  = V_total(r) - V_nn(r)                          (electronic energy)
+
+Parameters follow periodic trends:
+  D_e   = 0.1 + 0.025*(Z - 3)     (deeper well for heavier atoms)
+  R_e   = 2.2 Bohr                (fixed)
+  alpha = 0.9                     (fixed)
+
+Training: Z = 5, 6, ..., 13   (9 molecules, like B to Al)
+Test:     Z = 17, 18, ..., 27  (11 molecules, like Cl to Co, EXTRAPOLATION)
+
+Grid: r = 1.0 to 8.0 Bohr, 50 points.
+Parabola reference point: r0 = 20 Bohr.
+
+
+METHODS COMPARED
+----------------
+All methods predict V_total for test molecules. We measure E_elec reconstruction MAE.
+
+1. Direct Ridge multioutput
+   Input: Z (one number per molecule)
+   Output: V_total at 50 grid points (50 independent regression problems)
+   Each grid point has its own weight: V(r_j) = w_j * Z + b_j
+   This gives 50 independent weights, one per grid point.
+   V_total is linear in Z (through D_e), so Ridge fits it perfectly.
+
+2. Global Rose (our existing adaptive method)
+   Input: Z
+   Output: three parameters (D_e, R_e, alpha)
+   Reconstruction: plug parameters into Morse equation to get V_total(r)
+   Works because D_e is linear in Z, and R_e/alpha are constant.
+
+3. Shared model: [Z, r] -> E_elec (direct, no parabola)
+   Input: [Z, r] — both the atom identity and the distance
+   Output: one scalar E_elec
+   ONE model with shared weights across all r values.
+   For Ridge: E_elec = w1*Z + w2*r + b (3 weights total for all molecules and all r)
+   Problem: E_elec contains a -Z^2/r term that is nonlinear in both Z and r.
+   Ridge (linear) cannot represent Z^2 or 1/r.
+
+4. Shared model: [Z, r] -> a(r) (Anatole's parabola)
+   Input: [Z, r]
+   Output: one scalar a (curvature)
+   Reconstruction: E_elec = a * (r - r0)^2, then V_total = E_elec + Z^2/r
+   Same shared-weight structure as method 3.
+   For Ridge: a = w1*Z + w2*r + b, then E_elec = (w1*Z + w2*r + b)*(r-r0)^2
+   Problem: same as method 3 — cannot represent the nonlinear shape of E_elec.
+
+5-8. Same as 3-4 but with Z^2 NORMALIZATION:
+   Instead of learning E_elec, learn E_elec/Z^2.
+   Instead of learning a(r), learn a(r)/Z^2.
+   After prediction, multiply back by Z^2 to reconstruct E_elec.
+
+   Also tested with MLP (neural network) instead of Ridge.
+
+
+KEY INSIGHT: Z^2 NORMALIZATION
+------------------------------
+E_elec(r) = V_Morse(r) - Z^2/r
+
+Dividing by Z^2:
+  E_elec/Z^2 = V_Morse/Z^2 - 1/r
+
+The -1/r term is UNIVERSAL — identical for every molecule regardless of Z.
+The V_Morse/Z^2 correction is tiny and shrinks for heavier atoms (D_e/Z^2 -> 0).
+
+Result: E_elec/Z^2 has nearly identical range for training and test:
+  Train: [-0.994, -0.125]
+  Test:  [-0.997, -0.125]
+  Ratio: 1.00x  (perfect overlap)
+
+Compare unnormalized E_elec:
+  Train: [-168, -3.1]
+  Test:  [-727, -36]
+  Ratio: 4.2x   (huge gap)
+
+See figures: fig_unnormalized_targets.png vs fig_normalized_targets_v2.png
+
+
+RESULTS (E_elec MAE in Ha)
+--------------------------
+Method                                      E_elec MAE
+----------------------------------------------------------
+Direct Ridge multioutput  Z->V(r)              0.002
+Global Rose  Z->(D_e,R_e,alpha)                0.002
+Ridge  [Z,r] -> E_elec                        58.07
+Ridge  [Z,r] -> E_elec/Z^2 (normalized)       38.98
+Ridge  [Z,r] -> a(r) parabola                 57.81
+Ridge  [Z,r] -> a(r)/Z^2 parabola (norm.)     27.21
+MLP    [Z,r] -> E_elec                        28.05
+MLP    [Z,r] -> E_elec/Z^2 (normalized)      155.57
+MLP    [Z,r] -> a(r) parabola                 35.42
+MLP    [Z,r] -> a(r)/Z^2 parabola (norm.)  14677.14
+
+
+WHY THE SHARED MODELS FAIL
+---------------------------
+Even though normalization makes targets universal, three problems remain:
+
+1. Ridge cannot represent -1/r.
+   E_elec/Z^2 is dominated by -1/r. Ridge with inputs [Z, r] gives:
+     prediction = w1*Z + w2*r + b
+   This is linear in r. The function -1/r is nonlinear. Ridge cannot fit it
+   even on training data.
+
+2. MLP error amplification.
+   MLP can learn -1/r on training data. But any prediction error gets
+   multiplied by Z^2 when reconstructing E_elec. For Z=27, Z^2=729,
+   so a 0.01 error in normalized space becomes 7.3 Ha in real space.
+   This is why MLP normalized (155 Ha) is worse than MLP unnormalized (28 Ha).
+
+3. Parabola (r-r0)^2 does not match the shape of E_elec.
+   E_elec has exponential character (from Morse) and 1/r character (from V_nn).
+   The parabola form a*(r-r0)^2 cannot represent either of these. Dividing
+   E_elec by (r-r0)^2 creates a more complex function a(r) that is harder
+   to learn, not easier.
+
+
+WHY DIRECT RIDGE MULTIOUTPUT AND GLOBAL ROSE WIN
+-------------------------------------------------
+Direct Ridge multioutput: 50 independent models, each specializing to one
+grid point. At each r_j, V_total is linear in Z (through D_e). So each
+model perfectly extrapolates: V(r_j) = w_j * Z + b_j. No 1/r problem
+because it never sees E_elec — it works on V_total directly.
+
+Global Rose: learns 3 parameters (D_e, R_e, alpha) from Z, then plugs them
+into the Morse equation. D_e is linear in Z (Ridge handles it). R_e and
+alpha are constant (trivial). The Morse exponential exp(-alpha*(r-R_e))
+captures the actual physics of binding curves.
+
+
+BOTTOM LINE FOR ANATOLE
+------------------------
+1. The parabola decomposition E_elec = a(r)*(r-r0)^2 with a shared model
+   a = f(Z, r) IS a valid adaptive approach (not pointwise).
+
+2. Z^2 normalization makes the targets beautifully universal — training and
+   test E_elec/Z^2 overlap perfectly. This validates the physical intuition
+   that E_elec scales as Z^2.
+
+3. However, the parabola (r-r0)^2 is too simple a functional form. It cannot
+   capture the 1/r (Coulomb) or exponential (Morse) character of E_elec.
+   In every comparison, the parabola makes things worse, not better.
+
+4. The advantage of Global Rose comes from the Morse/UBER equation being the
+   RIGHT physics — exp(-alpha*(r-R_e)) matches real binding curves.
+   (r-r0)^2 does not.
+
+5. A position-dependent approach could work if the functional form matched
+   the physics better. The parabola is the issue, not the shared-model idea.
+
+
+FILES
+-----
+Key figures:
+  figures/fig_unnormalized_targets.png    — E_elec train vs test (huge gap)
+  figures/fig_normalized_targets_v2.png   — E_elec/Z^2 train vs test (overlap)
+
+Scripts (in order of development):
+  adaptive_curvature_clean.py      — clean test with [Z, r] inputs
+  adaptive_curvature_clean_v2.py   — added [Z^2, r] inputs
+  adaptive_curvature_normalized.py — Z^2 normalization test
+  unnormalized_vs_normalized_figures.py — final matched figures + stats

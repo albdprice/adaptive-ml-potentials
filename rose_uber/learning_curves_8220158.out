@@ -1,0 +1,78 @@
+Job started: Thu 05 Feb 2026 01:49:12 PM EST
+Node: c240.nibi.sharcnet
+CPUs: 8
+created virtual environment CPython3.11.5.final.0-64 in 5568ms
+  creator CPython3Posix(dest=/local/scratch/albd.8220158.0/venv, clear=False, no_vcs_ignore=False, global=False)
+  seeder FromAppData(download=False, pip=bundle, setuptools=bundle, wheel=bundle, via=copy, app_data_dir=/home/albd/.local/share/virtualenv)
+    added seed packages: pip==23.2.1, setuptools==68.0.0, wheel==0.41.1
+  activators BashActivator,CShellActivator,FishActivator,NushellActivator,PowerShellActivator,PythonActivator
+Looking in links: /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/x86-64-v4, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/x86-64-v3, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/generic, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic
+Requirement already satisfied: pip in /local/scratch/albd.8220158.0/venv/lib/python3.11/site-packages (23.2.1)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/pip-25.2+computecanada-py3-none-any.whl
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 23.2.1
+    Uninstalling pip-23.2.1:
+      Successfully uninstalled pip-23.2.1
+Successfully installed pip-25.2+computecanada
+Looking in links: /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/x86-64-v4, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/x86-64-v3, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/generic, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/generic/numpy-2.3.3+computecanada-cp311-cp311-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/generic/scipy-1.16.2+computecanada-cp311-cp311-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/x86-64-v3/matplotlib-3.10.1+computecanada-cp311-cp311-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/generic/scikit_learn-1.7.1+computecanada-cp311-cp311-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/x86-64-v3/pandas-2.3.3+computecanada-cp311-cp311-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/generic/contourpy-1.3.1+computecanada-cp311-cp311-linux_x86_64.whl (from matplotlib)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/cycler-0.12.1+computecanada-py3-none-any.whl (from matplotlib)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/fonttools-4.61.1+computecanada-cp311-cp311-linux_x86_64.whl (from matplotlib)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/x86-64-v3/kiwisolver-1.4.8+computecanada-cp311-cp311-linux_x86_64.whl (from matplotlib)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/packaging-26.0+computecanada-py3-none-any.whl (from matplotlib)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo2023/x86-64-v3/pillow-12.1.0+computecanada-cp311-cp311-linux_x86_64.whl (from matplotlib)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/pyparsing-3.3.1+computecanada-py3-none-any.whl (from matplotlib)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/python_dateutil-2.9.0.post0+computecanada-py2.py3-none-any.whl (from matplotlib)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/joblib-1.5.3+computecanada-py3-none-any.whl (from scikit-learn)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/threadpoolctl-3.6.0+computecanada-py3-none-any.whl (from scikit-learn)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/pytz-2025.2+computecanada-py2.py3-none-any.whl (from pandas)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/tzdata-2025.3+computecanada-py2.py3-none-any.whl (from pandas)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/six-1.17.0+computecanada-py2.py3-none-any.whl (from python-dateutil>=2.7->matplotlib)
+Installing collected packages: pytz, tzdata, threadpoolctl, six, pyparsing, pillow, packaging, numpy, kiwisolver, joblib, fonttools, cycler, scipy, python-dateutil, contourpy, scikit-learn, pandas, matplotlib
+
+Successfully installed contourpy-1.3.1+computecanada cycler-0.12.1+computecanada fonttools-4.61.1+computecanada joblib-1.5.3+computecanada kiwisolver-1.4.8+computecanada matplotlib-3.10.1+computecanada numpy-2.3.3+computecanada packaging-26.0+computecanada pandas-2.3.3+computecanada pillow-12.1.0+computecanada pyparsing-3.3.1+computecanada python-dateutil-2.9.0.post0+computecanada pytz-2025.2+computecanada scikit-learn-1.7.1+computecanada scipy-1.16.2+computecanada six-1.17.0+computecanada threadpoolctl-3.6.0+computecanada tzdata-2025.3+computecanada
+======================================================================
+LEARNING CURVES: Computation
+Adaptive vs Direct Learning for Morse/Rose Potentials
+======================================================================
+ML Method: Kernel Ridge Regression (RBF kernel)
+Hyperparameter optimization: 5-fold Cross-Validation
+Grid: alpha in {0.001, 0.01, 0.1, 1.0}, gamma in {0.1, 0.5, 1.0, 2.0, 5.0}
+Seeds: 5, n_jobs: 1
+Output: learning_curves_results.npz
+
+--- EXTRAPOLATION REGIME ---
+Training: De ~ 1.5-3.5 eV | Testing: De ~ 5.5-8.5 eV
+  N= 10: Direct MAE=3.1914+/-0.1394 eV, Adaptive MAE=3.2255+/-0.1426 eV
+  N= 15: Direct MAE=3.0992+/-0.1819 eV, Adaptive MAE=3.0851+/-0.1700 eV
+  N= 20: Direct MAE=3.2455+/-0.1360 eV, Adaptive MAE=3.2583+/-0.1356 eV
+  N= 30: Direct MAE=3.1219+/-0.0915 eV, Adaptive MAE=3.1398+/-0.0938 eV
+  N= 40: Direct MAE=3.1918+/-0.1526 eV, Adaptive MAE=3.2061+/-0.1484 eV
+  N= 60: Direct MAE=3.2145+/-0.1046 eV, Adaptive MAE=3.2280+/-0.0986 eV
+  N= 80: Direct MAE=3.2120+/-0.0839 eV, Adaptive MAE=3.2277+/-0.0813 eV
+  N=100: Direct MAE=3.0978+/-0.1116 eV, Adaptive MAE=3.1160+/-0.1020 eV
+  N=120: Direct MAE=3.2015+/-0.1548 eV, Adaptive MAE=3.2192+/-0.1560 eV
+  N=160: Direct MAE=3.2427+/-0.1020 eV, Adaptive MAE=3.2501+/-0.0983 eV
+
+--- INTERPOLATION REGIME ---
+Training: De ~ 1.5-3.5 eV | Testing: De ~ 2.0-3.0 eV (within range)
+  N= 10: Direct MAE=0.0251+/-0.0060 eV, Adaptive MAE=0.0437+/-0.0118 eV
+  N= 15: Direct MAE=0.0126+/-0.0054 eV, Adaptive MAE=0.0246+/-0.0017 eV
+  N= 20: Direct MAE=0.0041+/-0.0014 eV, Adaptive MAE=0.0221+/-0.0005 eV
+  N= 30: Direct MAE=0.0030+/-0.0010 eV, Adaptive MAE=0.0214+/-0.0005 eV
+  N= 40: Direct MAE=0.0019+/-0.0006 eV, Adaptive MAE=0.0213+/-0.0004 eV
+  N= 60: Direct MAE=0.0013+/-0.0001 eV, Adaptive MAE=0.0212+/-0.0004 eV
+  N= 80: Direct MAE=0.0012+/-0.0002 eV, Adaptive MAE=0.0215+/-0.0004 eV
+  N=100: Direct MAE=0.0012+/-0.0002 eV, Adaptive MAE=0.0212+/-0.0002 eV
+  N=120: Direct MAE=0.0012+/-0.0001 eV, Adaptive MAE=0.0216+/-0.0006 eV
+  N=160: Direct MAE=0.0010+/-0.0001 eV, Adaptive MAE=0.0217+/-0.0004 eV
+
+Computation finished in 32.2s
+Results saved to: learning_curves_results.npz
+Job finished: Thu 05 Feb 2026 01:50:07 PM EST

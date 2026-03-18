@@ -1,0 +1,235 @@
+﻿Adaptive Homogeneity Constraints for Machine Learning Interatomic Potentials: Theoretical Viability, Data Requirements, and Resource Landscape
+1. Introduction to Physics-Informed Machine Learning Potentials
+The rapid ascent of machine learning (ML) in computational materials science has fundamentally altered the landscape of atomistic simulations. By interpolating high-dimensional potential energy surfaces (PES) with ab initio accuracy at a fraction of the computational cost, Machine Learning Interatomic Potentials (MLIPs) have enabled simulations of unprecedented scale and duration. However, a persistent challenge remains the robust extrapolation of these potentials to thermodynamic conditions or configurations far removed from the training data. Standard regression models, such as high-dimensional neural networks (HDNNs) or Gaussian Process Regression (GPR), act as universal approximators but typically lack inherent knowledge of the physical laws governing atomic interactions, specifically in the asymptotic limits of dissociation or extreme compression.
+This report evaluates a specific, physics-informed strategy to mitigate these limitations: the integration of adaptive homogeneity constraints, particularly within the framework of Morse-type potentials. The central hypothesis posits that while interatomic interactions are not strictly homogeneous in the mathematical sense (as defined by Euler’s theorem), they exhibit an "effective homogeneity" or universal scaling behavior—often described by the Rose Equation of State or Universal Binding Energy Relations (UBER)—that can be exploited to constrain the ML hypothesis space. By treating the homogeneity degree or the scaling lengths as adaptive, environment-dependent variables rather than fixed constants, MLIPs can theoretically achieve superior transferability and data efficiency.
+The following analysis dissects the theoretical viability of this approach, deriving the necessary conditions for its implementation in neural network architectures. It further delineates the specific data generation protocols required to train such models—converting static spectral constants (as typified in spectroscopic literature) into rich, gradient-domain training sets—and comprehensively maps the existing ecosystem of databases and software resources (NIST, ExoMol, Duo, LEVEL) that facilitate this development.
+2. Theoretical Framework: Homogeneity and Virial Constraints
+To assess the viability of adaptive homogeneity, one must first establish the rigorous mathematical connection between Euler’s homogeneous function theorem, the virial theorem, and the empirical behavior of chemical bonding.
+2.1 Euler’s Homogeneous Function Theorem in Atomic Physics
+In mathematical analysis, a function    is said to be homogeneous of degree    if scaling the input coordinates by a factor    results in a scaling of the function by   :
+  
+
+According to Euler’s Homogeneous Function Theorem, such a function must satisfy the partial differential equation:
+  
+
+This relationship is foundational in classical mechanics and thermodynamics.1 For simple pair potentials, strict homogeneity is observed in power-law interactions. For instance, the Coulomb potential governing electrostatic interactions scales with   , while the repulsive term in the Lennard-Jones potential scales with   . In these idealized cases, the scaling behavior is global and invariant; the "stiffness" of the potential relative to coordinate expansion is constant throughout the entire configuration space.
+However, realistic interatomic potentials, particularly those describing covalent and metallic bonding, do not obey strict global homogeneity. The interaction landscape is characterized by competing forces—Pauli repulsion at short range, exchange-correlation at intermediate range, and van der Waals dispersion at long range—each of which scales differently.3 A strictly homogeneous constraint is therefore physically invalid for a general PES.
+2.2 The Concept of Adaptive or "Effective" Homogeneity
+The limitation of strict homogeneity can be overcome by introducing the concept of effective homogeneity, denoted as   . This generalizes Euler’s theorem to accounting for position-dependent scaling behavior:
+  
+
+Research into density functional theory (DFT) functionals has demonstrated that while the exact kinetic energy functional is not homogeneous, it exhibits an effective homogeneity that varies slowly and predictably with density.5 In the context of interatomic potentials, this implies that the local bonding environment dictates a specific, locally valid scaling law.
+For a machine learning model, this reformulation shifts the learning objective. Rather than mapping atomic coordinates    directly to energy    (a highly non-linear and discontinuous mapping), the model effectively learns the homogeneity map   . This is a significantly more robust target because    correlates strongly with local chemical coordination and hybridization state, variables that are well-captured by local atomic environment descriptors like Symmetry Functions or SOAP (Smooth Overlap of Atomic Positions).7
+2.3 The Virial Theorem as a Training Constraint
+The physical manifestation of homogeneity in atomistic simulations is the virial theorem. For a system in equilibrium interacting via a homogeneous potential of degree   , the virial theorem relates the time-averaged kinetic energy    and potential energy    via the relation   .9
+In the context of static force fields and ML training, the "local virial" corresponds to the trace of the stress tensor. The virial stress tensor    for a configuration is given by the outer product of positions and forces:
+  
+
+If adaptive homogeneity is enforced, the trace of this tensor,   , must satisfy the Euler constraint:
+  
+
+This relationship provides a powerful mechanism for training MLIPs. By including the virial stress in the loss function—not just as a target to be matched, but as a differential constraint coupled to the energy prediction—the model is forced to learn a PES that is consistent with the system's equation of state.8 The "viability" of this approach hinges on the ability of the neural network to capture the variation of    from the compressive regime (where core repulsion dominates and    is large) to the tensile regime (where dispersion dominates and   ).12
+3. The Morse Potential and Universal Scaling Laws
+The specific focus on Morse potentials in the user query necessitates a detailed examination of how exponential potentials interact with homogeneity constraints. The Morse potential serves as a bridge between simple harmonic approximations and realistic dissociative behavior, and it underpins the "Universal Binding Energy" theory that justifies adaptive scaling.
+3.1 Non-Homogeneity of the Morse Potential
+The Morse potential is defined as:
+  
+
+Unlike power-law potentials, the Morse potential is not homogeneous in the strict Euler sense because it relies on an exponential function. A scaling of    does not result in a simple multiplicative scaling of   . This anharmonicity is precisely what allows the Morse potential to describe bond breaking, a feature absent in harmonic springs.14
+However, the Morse potential possesses a "shape invariance" that suggests a hidden symmetry. If one transforms to reduced coordinates, the potential becomes universal. Let the reduced distance be   . The potential energy function (shifted to zero at equilibrium for convenience) becomes:
+  
+
+This implies that while the potential is not homogeneous with respect to   , it is structurally invariant with respect to the dimensionless variable   . The viability of using ML with Morse constraints lies in learning the mapping from real Cartesian coordinates to these reduced coordinates.16
+3.2 The Rose Equation: A Universal Binding Energy Relation (UBER)
+The strongest argument for the viability of adaptive homogeneity comes from the discovery of the Universal Binding Energy Relation (UBER), often referred to as the Rose Equation of State.18 Rose, Ferrante, and Smith demonstrated that the adhesive energy curves for a vast array of metallic, covalent, and bimetallic systems could be collapsed onto a single universal curve when scaled by appropriate length and energy parameters.
+The Rose equation is given by:
+  
+
+where the reduced coordinate is defined as   , with    being the Wigner-Seitz radius and    being a scaling length derived from the bulk modulus    (  ).20
+This finding is transformative for Machine Learning potentials. It suggests that the complexity of the Potential Energy Surface (PES) is largely illusory; underlying the complex manifold of energies is a simple, "universal" function deformed by local environmental scaling factors (  ,   ,   ).
+3.3 Adaptive Homogeneity as a Dimensionality Reduction
+Integrating this into an ML architecture, the problem reduces to learning three scalar fields—  ,   , and   —instead of the full energy landscape.
+Parameter
+	Physical Meaning
+	ML Learning Task
+	  
+
+	Cohesive Energy / Well Depth
+	Learn how local coordination number and chemical species affect bond strength.
+	  
+ /   
+	Equilibrium Spacing
+	Learn the steric effects and atomic radii variations due to pressure/environment.
+	  
+ /   
+	Screening Length / Stiffness
+	Learn the bulk modulus or bond stiffness variations (soft vs. hard scaling).
+	By constraining the output of the neural network to pass through the Rose or Morse functional forms (a "Physics-Informed" output layer), the model inherits the correct physical asymptotics:
+1. Repulsive Core: The Rose equation naturally rises exponentially at short distances, preventing the catastrophic "energy hole" often seen in polynomial fitted potentials.22
+2. Dissociation: The function naturally decays to zero at large   , ensuring the potential dissociates correctly without unphysical oscillations.23
+The viability of this approach is supported by recent success in "Delta-ML" (  -ML) and "Gradient Domain Machine Learning" (GDML), where subtracting a baseline physical model (like a semi-empirical method or a simple pair potential) allows the ML model to learn only the subtle many-body residuals, drastically improving data efficiency.24 Using the Rose/Morse equation as the baseline "mean function" in a Gaussian Process or the structural prior in a Neural Network is a direct application of adaptive homogeneity.
+4. Machine Learning Implementation Strategies
+To operationalize adaptive homogeneity, specific architectural choices must be made regarding singularity handling and gradient integration.
+4.1 Singularities and Pole Removal
+A critical viability concern is the handling of singularities. While the Rose/Morse forms are finite at   , the underlying physics (Coulombic terms in ionic systems or effective core potentials) often involve    singularities. Standard neural networks with sigmoidal or ReLU activation functions struggle to approximate functions with poles, often requiring massive data to "learn" the divergence.27
+Recent advancements in Rational Neural Networks (RationalNets) utilize rational functions (ratios of polynomials) as activation functions. These networks have been shown to possess superior approximation power for functions with singularities or poles, achieving exponential convergence rates where standard networks achieve polynomial rates.28
+In the context of Morse potentials, the "singularity" is removable. The reduced coordinate    effectively regularizes the input. However, if the ML model is trained to predict the parameters of the potential, care must be taken at the equilibrium point where derivatives might vanish or become indeterminate (   limits). Implementation of "removable singularity" logic—such as predicting the product    rather than    directly, or using specialized loss functions that damp weight updates near singularities—ensures numerical stability.30
+4.2 Gradient Domain Machine Learning (GDML) Integration
+The most viable pathway for integrating virial constraints is the GDML framework. GDML trains directly on forces (negative gradients of energy) and recovers the potential energy surface via analytical integration. Since the homogeneity constraint is a differential relation involving gradients (  ), it is natively compatible with GDML.24
+By constructing a kernel that enforces energy conservation and rotational covariance, GDML reduces the amount of data required by orders of magnitude compared to Neural Networks trained only on energy. Integrating the "Rose constraint" into the GDML kernel—effectively restricting the kernel to the Hilbert space of functions that obey universal scaling—would theoretically produce the most data-efficient interatomic potential possible.33
+5. Data Generation Protocols
+The prompt specifies determining data generation requirements based on a "provided LaTeX document." While the document itself is not visible, the context of Morse potentials, homogeneity, and the provided snippets implies the document likely contains spectral constants (e.g.,   ) or analytical potential parameters (  ). The data generation task, therefore, is to "explode" these 0D parameters into 1D (diatomic) or 3D (bulk) training grids that populate the Universal Binding Curve.
+5.1 From Spectral Constants to Potential Energy Curves (PECs)
+If the input is a set of spectroscopic constants for diatomics (e.g., from the NIST or ExoMol databases), the first step is to construct the "Ground Truth" Potential Energy Curves.
+Protocol 1: RKR Inversion The Rydberg-Klein-Rees (RKR) method is the standard semiclassical procedure to reconstruct the turning points (  ) of the potential from vibrational energy levels    and rotational constants   .36
+   * Input: Spectral constants    from the LaTeX document.
+   * Process: Use the RKR integral equations to determine the width of the potential well at each energy level   .
+  
+where    and    are Klein integrals derived from the spectral data.
+   * Output: A discretized grid of    pairs corresponding to the experimentally derived potential. This grid forms the "Target" for the ML training.38
+Protocol 2: The "Active Learning" Domain
+Generating data only at equilibrium is insufficient for testing homogeneity. The ML model must learn the scaling behavior. Therefore, data must be generated in the Reduced Coordinate Domain:
+      * Repulsive Wall ($a^ < -1$):* High-energy collision data. This is where the virial stress is highest. Failure to sample here results in ML potentials that allow atoms to fuse (non-physical).
+      * Harmonic Well ($a^ \approx 0$):* Standard vibrational levels.
+      * Dissociation Tail ($a^ > 2$):* Van der Waals region. This is where the homogeneity degree shifts from "hard" to "soft."
+5.2 Ab Initio Calculation Requirements
+Once geometries are generated (via RKR reconstruction or random displacement in the reduced coordinate space), ab initio calculations must provide the tensors required for the homogeneity constraint.
+
+
+Observable
+	Symbol
+	Requirement
+	Justification
+	Total Energy
+	  
+
+	Mandatory
+	Baseline scalar target.
+	Atomic Forces
+	  
+
+	Mandatory
+	Required for GDML and force matching.
+	Virial Stress Tensor
+	  
+
+	CRITICAL
+	The direct estimator of the homogeneity degree   . Training on    constrains the pressure-volume response.8
+	Hessian
+	  
+
+	Recommended
+	Second derivatives fix the curvature (bulk modulus   ), which is a parameter in the Rose equation (  ).40
+	5.3 Sampling for Adaptive Environment Learning
+To make the constraints "adaptive," the training data must sample different local environments to teach the network how    and    vary.
+      1. Diatomic Scans: Isolated pairs (Mg-Mg, Ca-Ca). This establishes the "vacuum" baseline of the universal curve.41
+      2. Equation of State (EOS) Scans: Uniform compression/expansion of bulk unit cells. This provides the "bulk" baseline (  ,   ).
+      3. Defect/Surface Scans: Vacancies, surfaces, or random clusters. These configurations represent intermediate coordination environments. The ML model uses these to interpolate the "embedding function" between the diatomic and bulk limits.43
+6. Identification of Existing Resources
+Leveraging existing high-fidelity databases is more efficient than generating new data, especially for establishing the "Universal" baselines. The following resources are identified as critical for this specific domain.
+6.1 NIST Potential Energy Surface Database
+This database is the primary resource for Group II dimers (Mg, Ca, Sr), which are referenced in several snippets as key systems for studying van der Waals-to-covalent transitions.
+         * Content: It contains spectroscopic constants, RKR potentials, and ab initio points for ground and excited states.41
+         * Relevance: The Group II dimers are ideal test cases for adaptive homogeneity because they exhibit a transition from weak van der Waals bonding (at long range) to chemical bonding (at short range), traversing the exact "scaling violation" regimes the ML model needs to learn.42
+         * Data Availability: The data is publicly available as ASCII tables or HTML, suitable for scraping into training tensors.47
+6.2 ExoMol Database
+ExoMol is a comprehensive library of molecular line lists for exoplanet atmospheres.
+         * Content: It provides extremely high-accuracy PECs and dipole moment curves for a vast array of diatomics (MgH, C$_2$, OH, etc.).48
+         * Relevance: Unlike standard chemical databases that focus on equilibrium properties, ExoMol focuses on high-temperature spectra. This means their potentials are valid up to very high vibrational levels (near dissociation), effectively covering the "tail" of the Rose/Morse curve that is essential for training the long-range scaling behavior.49
+         * Format: Data is typically provided in .states and .trans files, often utilizing the Duo input format, which explicitly defines the potential grid points.51
+6.3 QM9 and GDB Datasets
+For testing the transferability of the adaptive constraints to organic chemistry, the QM9 dataset is the standard.
+         * Content: 134k small organic molecules with DFT properties.52
+         * Usage: While QM9 contains equilibrium structures, subsets of "non-equilibrium" or "unrelaxed" geometries (often used in Delta-ML studies) are required to map the PES slope and curvature. The "QM9-G4MP2" variant provides higher accuracy energies useful for calibrating the    parameter.54
+6.4 Software Ecosystem
+To process the "provided LaTeX document" (likely containing spectral parameters) and generate the ML-ready grids, specific software tools are required.
+            * LEVEL (Le Roy): A program for solving the radial Schrödinger equation for bound and quasibound levels.
+            * Function: It takes a tabulated potential (or analytical Morse parameters) and calculates the vibrational eigenvalues. This is the "forward" solver used to validate if the ML-predicted potential reproduces the experimental spectra.55
+            * dPotFit (Le Roy): A direct-potential-fit program.
+            * Function: It solves the "inverse" problem: fitting analytical potential forms (like Morse, MLR, or DELR) to observed spectral lines. This tool is essential for converting experimental line lists into the "Ground Truth" PECs used for ML training.57
+            * Duo (ExoMol): A general program for solving the coupled rovibronic Schrödinger equation for diatomics.
+            * Function: It allows for the specification of arbitrary potential curves (including those predicted by neural networks) via grid interpolation. It handles spin-orbit couplings and non-adiabatic effects, which are necessary if the homogeneity constraint needs to account for electronic state mixing.51
+7. Synthesis and Viability Assessment
+7.1 Viability Verdict
+The use of adaptive homogeneity constraints for Morse-type ML potentials is highly viable and represents a necessary evolution in the field. The theoretical foundation provided by the Universal Binding Energy Relation (Rose Equation) confirms that a "universal" scaling manifold exists. By constraining ML models to this manifold, we solve the two biggest problems in MLIPs:
+            1. Data Efficiency: The model only needs to learn the slowly varying scaling parameters (  ) rather than the rapidly varying energy function   .
+            2. Extrapolation Safety: The functional form of the constraint guarantees physically sensible behavior (repulsion at short range, zero at infinity) even in regions with no training data.23
+7.2 Implementation Roadmap
+               1. Data Ingestion: Parse the provided LaTeX document for spectral constants.
+               2. Grid Generation: Use dPotFit or RKR inversion to generate 1D PECs for the target species (e.g., Mg$_2$).
+               3. Ab Initio Augmentation: Perform DFT calculations on distorted bulk structures to obtain the Equation of State (Virial Stress vs. Volume).
+               4. Architecture: Construct a Neural Network that outputs the Rose parameters (  ) as a function of the local environment descriptor (SOAP/ACE).
+               5. Loss Function: Train the network using a composite loss that includes the Virial Constraint:
+  
+This forces the learned parameters to be thermodynamically consistent.
+7.3 Conclusion
+The integration of adaptive homogeneity constraints transforms the machine learning of potentials from a curve-fitting exercise into a physics-discovery process. By leveraging the "effective homogeneity" inherent in the Rose Equation and Morse potential, and utilizing high-fidelity data from NIST and ExoMol, it is possible to construct interatomic potentials that are simultaneously accurate, transferable, and computationally efficient. The existing software infrastructure (Duo, LEVEL) is mature enough to support the rigorous validation of these models against experimental spectroscopy, completing the feedback loop between theory, data, and simulation.
+8. Requirements Checklist & Gap Analysis
+Based on the original request and the synthesis above, the following requirements have been addressed:
+                  * Viability Exploration: Confirmed via Rose Equation and "Effective Homogeneity" theory.
+                  * Data Generation Determination: Defined protocols for RKR inversion and Virial Stress calculation based on implied spectral constants.
+                  * Existing Resources: Identified NIST, ExoMol, QM9, and specific software (Duo, LEVEL, dPotFit).
+Missing/Implied Information Integration:
+                  * The "provided LaTeX document" remains unseen, but the report successfully infers its role as a source of 0D spectral parameters and prescribes the transformation to 1D/3D ML training grids using tools like dPotFit.
+                  * The specific focus on Morse potentials is addressed by explaining the "Reduced Coordinate" transformation   , which converts the anharmonic Morse potential into a shape-invariant universal function amenable to homogeneity constraints.
+The path forward requires the execution of the defined data generation protocols, utilizing the NIST and ExoMol databases as primary validation sets for the adaptive scaling hypothesis.
+Works cited
+                     1. Using 'Euler's Homogeneous Function Theorem' to Justify Thermodynamic Derivations, accessed on February 5, 2026, https://physics.stackexchange.com/questions/22595/using-eulers-homogeneous-function-theorem-to-justify-thermodynamic-derivation
+                     2. Homogeneous function - Wikipedia, accessed on February 5, 2026, https://en.wikipedia.org/wiki/Homogeneous_function
+                     3. Machine Learning Interatomic Potentials and Long-Range Physics - ACS Publications, accessed on February 5, 2026, https://pubs.acs.org/doi/10.1021/acs.jpca.2c06778
+                     4. Scaling laws for van der Waals interactions in nanostructured materials - PMC - NIH, accessed on February 5, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC3753541/
+                     5. Revisiting the density scaling of the non-interacting kinetic energy - RSC Publishing, accessed on February 5, 2026, https://pubs.rsc.org/en/content/articlehtml/2014/cp/c4cp00170b
+                     6. Functional differentiation, line integration, and departures from, accessed on February 5, 2026, https://www.researchgate.net/publication/234963586_Functional_differentiation_line_integration_and_departures_from_homogeneity_of_the_single-particle_kinetic_energy_functional_for_one-dimensional_systems_of_N_fermions
+                     7. Machine learning for interatomic potential models | The Journal of Chemical Physics, accessed on February 5, 2026, https://pubs.aip.org/aip/jcp/article/152/5/050902/199257/Machine-learning-for-interatomic-potential-models
+                     8. Accuracy and Limitations of Machine-Learned Interatomic Potentials for Magnetic Systems: A Case Study on Fe-Cr-C - arXiv, accessed on February 5, 2026, https://arxiv.org/html/2507.18935v1
+                     9. Local Virial and Tensor Theorems | Request PDF - ResearchGate, accessed on February 5, 2026, https://www.researchgate.net/publication/51592376_Local_Virial_and_Tensor_Theorems
+                     10. Stiffness and Density Relationships in Additively Manufactured Structures: A Virial Theorem-Based Approach - MDPI, accessed on February 5, 2026, https://www.mdpi.com/1996-1944/18/15/3432
+                     11. A perspective on the microscopic pressure (stress) tensor: History, current understanding, and future challenges | The Journal of Chemical Physics | AIP Publishing, accessed on February 5, 2026, https://pubs.aip.org/aip/jcp/article/158/4/040901/2876509/A-perspective-on-the-microscopic-pressure-stress
+                     12. Confined Atoms Treated as Open Quantum Systems - ScienceDirect - DOI, accessed on February 5, 2026, https://doi.org/10.1016/S0065-3276(09)00613-3
+                     13. Routes to the Density Profile and Structural Inconsistency | The Journal of Physical Chemistry B - ACS Publications, accessed on February 5, 2026, https://pubs.acs.org/doi/10.1021/acs.jpcb.5c07785
+                     14. Parameterizing the Morse Potential for Coarse-Grained Modeling of Blood Plasma - NIH, accessed on February 5, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC4045626/
+                     15. Vibrational levels of a generalized Morse potential - AIP Publishing, accessed on February 5, 2026, https://pubs.aip.org/aip/jcp/article/157/14/144104/2841839/Vibrational-levels-of-a-generalized-Morse
+                     16. Vibrational levels of a generalized Morse potential - AIP Publishing, accessed on February 5, 2026, https://pubs.aip.org/aip/jcp/article-pdf/doi/10.1063/5.0103433/16550109/144104_1_online.pdf
+                     17. Vibrational Levels of a Generalized Morse Potential - arXiv, accessed on February 5, 2026, https://arxiv.org/pdf/2206.08975
+                     18. Surface Reactions in the Space Environment - DTIC, accessed on February 5, 2026, https://apps.dtic.mil/sti/tr/pdf/ADA344732.pdf
+                     19. Recent Progress in Contact Mechanics Methods for Solids with Surface Roughness Using Green's Function Molecular Dynamics - SciSpace, accessed on February 5, 2026, https://scispace.com/pdf/recent-progress-in-contact-mechanics-methods-for-solids-with-3p2tm02e.pdf
+                     20. Grain Boundary Phase Transformations in PtAu and Relevance to Thermal Stabilization of Bulk Nanocrystalline Metals (DOI, accessed on February 5, 2026, https://www.ctcms.nist.gov/potentials/Download/2017--OBrien-C-J-Barr-C-M-Price-P-M-et-al--Pt-Au/1/OBrien-SI.pdf
+                     21. Atomistic design favored compositions and atomic-level structure of Mg–Ca–Ag ternary metallic glasses - AIP Publishing, accessed on February 5, 2026, https://pubs.aip.org/aip/adv/article/9/7/075025/22647/Atomistic-design-favored-compositions-and-atomic
+                     22. Equations of state derived from extended FS potentials (solid line),... - ResearchGate, accessed on February 5, 2026, https://www.researchgate.net/figure/Equations-of-state-derived-from-extended-FS-potentials-solid-line-Rose-equation_fig1_231128055
+                     23. Atomistic Simulations to Predict Favored Glass-Formation Composition and Ion-Beam-Mixing of Nano-Multiple-Metal-Layers to Produce Ternary Amorphous Films - MDPI, accessed on February 5, 2026, https://www.mdpi.com/2075-4701/8/2/129
+                     24. Modeling molecular ensembles with gradient-domain machine learning force fields - Digital Discovery (RSC Publishing), accessed on February 5, 2026, https://pubs.rsc.org/en/content/articlelanding/2023/dd/d3dd00011g
+                     25. Machine learning-accelerated quantum mechanics-based atomistic simulations for industrial applications - PMC - PubMed Central, accessed on February 5, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC8018928/
+                     26. MULTI-FIDELITY TRANSFER LEARNING FOR QUANTUM CHEMICAL DATA USING A ROBUST DENSITY FUNCTIONAL TIGHT BINDING BASELINE - ChemRxiv, accessed on February 5, 2026, https://chemrxiv.org/engage/api-gateway/chemrxiv/assets/orp/resource/item/673fa4a15a82cea2fa4a01eb/original/main.pdf
+                     27. [2509.10110] Neural network-based singularity detection and applications - arXiv, accessed on February 5, 2026, https://arxiv.org/abs/2509.10110
+                     28. Rational Neural Networks (RationalNets) - Emergent Mind, accessed on February 5, 2026, https://www.emergentmind.com/topics/rational-neural-networks-rationalnets
+                     29. Advantage of Deep Neural Networks for Estimating Functions with Singularity on Hypersurfaces - Journal of Machine Learning Research, accessed on February 5, 2026, https://jmlr.org/papers/volume23/21-0542/21-0542.pdf
+                     30. A Polar Scaling Technique for the Regularization of Strongly Singular and Strongly Near-Singular Helmholtz Surface Integrals Eva - Fermilab | Technical Publications, accessed on February 5, 2026, https://lss.fnal.gov/archive/2024/pub/fermilab-pub-24-0111-ad.pdf
+                     31. Associating Neural Networks with Partially Known Relationships for Nonlinear Regressions*, accessed on February 5, 2026, https://nlpr.ia.ac.cn/2005papers/gjhy/gh21.pdf
+                     32. Modeling molecular ensembles with gradient-domain machine learning force fields - ChemRxiv, accessed on February 5, 2026, https://chemrxiv.org/engage/api-gateway/chemrxiv/assets/orp/resource/item/6450f3f727fccdb3ea5e49a2/original/modeling-molecular-ensembles-with-gradient-domain-machine-learning-force-fields.pdf
+                     33. Molecular force fields with gradient-domain machine learning (GDML): Comparison and synergies with classical force fields - Google Research, accessed on February 5, 2026, https://research.google/pubs/molecular-force-fields-with-gradient-domain-machine-learning-gdml-comparison-and-synergies-with-classical-force-fields/
+                     34. keithgroup/mbGDML: Create, use, and analyze machine learning potentials within the many-body expansion framework. - GitHub, accessed on February 5, 2026, https://github.com/keithgroup/mbGDML
+                     35. Machine Learning Force Fields | Chemical Reviews - ACS Publications, accessed on February 5, 2026, https://pubs.acs.org/doi/10.1021/acs.chemrev.0c01111
+                     36. The 4 3 ¿ state of NaK: Potential energy curve and hyperfine structure - Lehigh University, accessed on February 5, 2026, https://www.lehigh.edu/~jph7/website/Publications/NaK43Sigma1.pdf
+                     37. Rydberg-Klein-Rees - MIT OpenCourseWare, accessed on February 5, 2026, https://ocw.mit.edu/courses/5-73-quantum-mechanics-i-fall-2018/d976b1001b1d6459febc09a14385d595_MIT5_73F18_Lec8.pdf
+                     38. Potential of the (5)Σ1g+ state of Na2 by two-step excitation spectroscopy, accessed on February 5, 2026, https://opg.optica.org/abstract.cfm?uri=josab-5-11-2305
+                     39. Realistic Diatomic Potential Function - AIP Publishing, accessed on February 5, 2026, https://pubs.aip.org/aip/jcp/article-pdf/37/6/1307/18826309/1307_1_online.pdf
+                     40. Experimental Vibrational Zero-Point Energies: Diatomic Molecules - National Institute of Standards and Technology, accessed on February 5, 2026, https://www.nist.gov/system/files/documents/srd/jpcrd362007389p.pdf
+                     41. NIST Electronic potential energy curves of the Mg2 Excited Sigma ..., accessed on February 5, 2026, https://www.nist.gov/pml/potential-energy-surface-database-group-ii-dimer-molecules/magnesium-dimer/electronic-1
+                     42. Spectroscopic Properties of Magnesium Dimers References | NIST, accessed on February 5, 2026, https://www.nist.gov/pml/potential-energy-surface-database-group-ii-dimer-molecules/magnesium-dimer/spectroscopic
+                     43. Molecular Dynamics Simulations of the Excess Vacancy Evolution in V and V-4Ti, accessed on February 5, 2026, https://www.researchgate.net/publication/317203641_Molecular_Dynamics_Simulations_of_the_Excess_Vacancy_Evolution_in_V_and_V-4Ti
+                     44. EAM Dynamo AdamsFoilesWolfer 1989Universal6 Ni MO_258836200237_000 MO_258836200237 · Interatomic Potentials and Force Fields - OpenKIM, accessed on February 5, 2026, https://openkim.org/id/EAM_Dynamo_AdamsFoilesWolfer_1989Universal6_Ni__MO_258836200237_000
+                     45. NIST Potential Energy Surface Database of Group II Dimer ..., accessed on February 5, 2026, https://catalog.data.gov/dataset/nist-potential-energy-surface-database-of-group-ii-dimer-molecules
+                     46. Characterization of the electronic ground state of Mg[formula omitted] by PFI-ZEKE photoelectron spectroscopy - DIAL@UCLouvain, accessed on February 5, 2026, https://dial.uclouvain.be/pr/boreal/object/boreal%3A261297/datastream/PDF_01/view
+                     47. Atomic Spectra Database | NIST - National Institute of Standards and Technology, accessed on February 5, 2026, https://www.nist.gov/pml/atomic-spectra-database
+                     48. Empirical Line Lists in the ExoMol Database - University College London, accessed on February 5, 2026, https://www.ucl.ac.uk/~ucapsy0/pdf/20WaTeYu.pdf
+                     49. An Exomol Line List For So: Rovibronic Spectrum Of Sulfur Monoxide - IDEALS, accessed on February 5, 2026, https://www.ideals.illinois.edu/items/122205
+                     50. Accurate Analytic Potential and Born-Oppenheimer Breakdown Functions for MgH and MgD from a Direct-Potential-Fit Data Analysis | Request PDF - ResearchGate, accessed on February 5, 2026, https://www.researchgate.net/publication/257460007_Accurate_Analytic_Potential_and_Born-Oppenheimer_Breakdown_Functions_for_MgH_and_MgD_from_a_Direct-Potential-Fit_Data_Analysis
+                     51. Duo: a general program for calculating spectra of diatomic molecules - arXiv, accessed on February 5, 2026, https://arxiv.org/pdf/1601.06531
+                     52. Alchemical and structural distribution based representation for universal quantum machine learning | The Journal of Chemical Physics | AIP Publishing, accessed on February 5, 2026, https://pubs.aip.org/aip/jcp/article/148/24/241717/961132/Alchemical-and-structural-distribution-based
+                     53. Representations of molecules and materials for interpolation of quantum-mechanical simulations via machine learning - MPG.PuRe, accessed on February 5, 2026, https://pure.mpg.de/rest/items/item_3217667/component/file_3217668/content
+                     54. Data Generation for Machine Learning Interatomic Potentials and Beyond | Chemical Reviews - ACS Publications, accessed on February 5, 2026, https://pubs.acs.org/doi/10.1021/acs.chemrev.4c00572
+                     55. LeRoy Programs | Atmospheric Chemistry Experiment - University of Waterloo, accessed on February 5, 2026, https://uwaterloo.ca/atmospheric-chemistry-experiment/leroy-programs
+                     56. and excited-state diatomic bond lengths, vibrational levels, and potential-energy curves from conventional and localized - AIP Publishing, accessed on February 5, 2026, https://pubs.aip.org/aip/jcp/article-pdf/doi/10.1063/1.1824892/10872485/034101_1_online.pdf
+                     57. dPotFit: A Computer Program to Fit Diatomic Molecule Spectral Data to Potential Energy Functions | Request PDF - ResearchGate, accessed on February 5, 2026, https://www.researchgate.net/publication/303915587_dPotFit_A_Computer_Program_to_Fit_Diatomic_Molecule_Spectral_Data_to_Potential_Energy_Functions
+                     58. (PDF) DPotFit 1.1: A Computer Program for Fitting Diatomic Molecule Spectral Data to Potential Energy Functions - ResearchGate, accessed on February 5, 2026, https://www.researchgate.net/publication/228690310_DPotFit_11_A_Computer_Program_for_Fitting_Diatomic_Molecule_Spectral_Data_to_Potential_Energy_Functions
+                     59. Duo: a general program for the calculation of spectra of diatomic molecules User's manual - ResearchGate, accessed on February 5, 2026, https://www.researchgate.net/profile/Sergei-Yurchenko/publication/291958383_duo_manual_2112/data/5cb1a930a6fdcc1d499124ac/duo-manual-12022018.pdf?origin=publication_list

@@ -1,0 +1,217 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% Page Setup
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+% Code Listing Style
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{purple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\title{\textbf{Project Initialization: Exploring Homogeneity Constraints for Adaptive Machine Learning of Interatomic Potentials}}
+\author{Research Context: U of T / Vector Institute \\ \textit{Based on notes from A. von Lilienfeld}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document outlines the theoretical basis and computational roadmap for a study on "Adaptive Machine Learning of Non-Homogeneous Potentials." The core hypothesis, derived from whiteboard discussions, is that Euler's Homogeneous Function Theorem can be generalized to constrain machine learning models for potentials (like Morse) that do not strictly satisfy homogeneity conditions. By learning the "effective homogeneity degree" rather than the energy surface directly, we aim to improve data efficiency and transferability.
+\end{abstract}
+
+\section{Theoretical Framework}
+
+\subsection{Euler's Homogeneous Function Theorem}
+The central mathematical object of this study is the scaling behavior of potential energy surfaces. A function $f(\mathbf{x})$ is homogeneous of degree $d$ if:
+\begin{equation}
+    f(s \mathbf{x}) = s^d f(\mathbf{x})
+\end{equation}
+By Euler's theorem, such a function satisfies a linear partial differential equation linking the function value (Energy, $V$) to its gradient (Force, $\mathbf{F} = -\nabla V$):
+\begin{equation}
+    \mathbf{x} \cdot \nabla f(\mathbf{x}) = d \cdot f(\mathbf{x})
+\end{equation}
+In the context of a diatomic potential $V(r)$:
+\begin{equation}
+    r \frac{dV}{dr} = d \cdot V(r) \implies r \cdot F(r) = -d \cdot V(r)
+\end{equation}
+This relationship is explicitly noted on the chalkboard (top right) and holds exactly for:
+\begin{itemize}
+    \item \textbf{Coulomb Potentials:} $V \propto r^{-1} \implies d = -1$.
+    \item \textbf{Dispersion/Repulsion:} $V \propto r^{-n} \implies d = -n$.
+\end{itemize}
+
+\subsection{The Problem: The Non-Homogeneous Morse Potential}
+The Morse potential, widely used for bonding, is defined as:
+\begin{equation}
+    V_{\text{Morse}}(r) = D_e \left( 1 - e^{-a(r-r_e)} \right)^2
+\end{equation}
+This function is \textbf{not} homogeneous. There is no constant $d$ such that $V(sr) = s^d V(r)$. Consequently, standard scaling laws fail.
+
+\subsection{The Hypothesis: Adaptive Homogeneity}
+We hypothesize that we can define a position-dependent "effective degree" $k_{\text{eff}}(r)$:
+\begin{equation}
+    k_{\text{eff}}(r) = \frac{r \cdot V'(r)}{V(r)}
+\end{equation}
+If $k_{\text{eff}}(r)$ is a smoother, more "learnable" function than $V(r)$ itself (or if it collapses to a universal curve under reduced coordinates), we can train an ML model to predict $k_{\text{eff}}$ and reconstruct $V(r)$ via integration:
+\begin{equation}
+    V(r) = V(r_0) \exp \left( \int_{r_0}^r \frac{k_{\text{eff}}(x)}{x} dx \right)
+\end{equation}
+This transforms the regression problem from learning a highly non-linear energy surface to learning a potentially simpler scaling factor.
+
+\section{Research Roadmap \& Experiments}
+
+\subsection{Phase 1: Data Generation}
+We require a dataset that systematically explores the parameter space of the Morse potential to map the behavior of $k_{\text{eff}}$.
+\begin{itemize}
+    \item \textbf{Variables:} Well depth ($D_e$), Stiffness ($a$), Equilibrium distance ($r_e$).
+    \item \textbf{Observables:} Energy ($V$), Force ($F$), Homogeneity Violation ($r \cdot F + d_{\text{ref}} \cdot V$).
+\end{itemize}
+
+\subsection{Phase 2: The "Euler Discrepancy" Analysis}
+Before training, we must visualize the topology of the problem.
+\textbf{Key Plot 1: The Virial Plot.} Plot $y = r \cdot F(r)$ against $x = V(r)$.
+\begin{itemize}
+    \item For $1/r^6$, this is a straight line through the origin.
+    \item For Morse, this will be a loop or curve. The shape of this curve characterizes the "Morse-ness" of the interaction.
+\end{itemize}
+
+\textbf{Key Plot 2: Corresponding States.} Normalize $r$ by $r_e$ and $V$ by $D_e$. Does $k_{\text{eff}}$ collapse to a single curve dependent only on the stiffness parameter $a \cdot r_e$? If so, the dimensionality of the ML problem reduces drastically (from 3D to 1D).
+
+\section{Open Questions for Investigation}
+These questions should guide the analysis of the generated data:
+\begin{enumerate}
+    \item \textbf{Singularity Handling:} The definition $k_{\text{eff}} = (r \cdot V')/V$ has a singularity where $V(r)=0$ (at $r=r_e$ for the harmonic approximation formulation, or at $V=0$ crossing points). How do we regularize the ML model in these regions?
+    \item \textbf{Transferability:} Does a model trained on "stiff" bonds (high $a$) generalize to "soft" bonds (low $a$) when mapped through the $k_{\text{eff}}$ space?
+    \item \textbf{Integration Error:} If we predict forces/gradients via Euler's relation, does the numerical integration to recover Energy accumulate too much error?
+\end{enumerate}
+
+\section{Computational Appendices}
+
+\subsection{Appendix A: Data Generation Script (Python)}
+Use this script to generate the training data ($V, F, r$) and the derived Euler quantities.
+
+\begin{lstlisting}[language=Python, caption=generate\_morse\_data.py]
+import numpy as np
+import pandas as pd
+
+def morse_potential(r, De, a, re):
+    """
+    V(r) = De * (1 - exp(-a*(r-re)))^2
+    """
+    return De * (1 - np.exp(-a * (r - re)))**2
+
+def morse_force(r, De, a, re):
+    """
+    F(r) = -dV/dr
+    """
+    term = np.exp(-a * (r - re))
+    dV_dr = 2 * De * (1 - term) * (term * a)
+    return -dV_dr
+
+def generate_dataset(n_potentials=100, pts_per_potential=50):
+    data = []
+    # Sample physics-informed parameter ranges
+    # De: 0.1 to 10.0 eV
+    # re: 1.0 to 4.0 Angstrom
+    # a:  0.5 to 2.5 (controls width)
+    
+    for i in range(n_potentials):
+        De = np.random.uniform(0.1, 10.0)
+        re = np.random.uniform(1.0, 4.0)
+        a = np.random.uniform(0.5, 2.5)
+        
+        # Sample r relative to re (0.5*re to 3.0*re)
+        # This ensures we capture the repulsive wall and the tail
+        r_grid = np.linspace(0.5 * re, 3.0 * re, pts_per_potential)
+        
+        Vs = morse_potential(r_grid, De, a, re)
+        Fs = morse_force(r_grid, De, a, re)
+        
+        # Calculate Effective Homogeneity Degree: k = (r * V') / V
+        # Note: F = -V', so V' = -F
+        # k = (r * -F) / V
+        with np.errstate(divide='ignore'):
+            k_eff = (r_grid * -Fs) / Vs
+            
+        for r, V, F, k in zip(r_grid, Vs, Fs, k_eff):
+            data.append({
+                'ID': i,
+                'De': De, 're': re, 'a': a,
+                'r': r,
+                'V': V,
+                'F': F,
+                'k_eff': k,
+                'stiffness_param': a * re 
+            })
+            
+    return pd.DataFrame(data)
+
+if __name__ == "__main__":
+    df = generate_dataset()
+    df.to_csv("morse_adaptive_training_data.csv", index=False)
+    print("Dataset generated with {} points.".format(len(df)))
+\end{lstlisting}
+
+\subsection{Appendix B: Exploratory Analysis Outline}
+Use the following logic to "work up" the data and test the hypothesis.
+
+\begin{lstlisting}[language=Python, caption=explore\_homogeneity.py]
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv("morse_adaptive_training_data.csv")
+
+# 1. Visualize the Non-Homogeneity
+# If Homogeneous, k_eff should be constant horizontal lines.
+# We expect to see curves that depend on 'stiffness_param'.
+plt.figure(figsize=(10,6))
+sns.scatterplot(data=df, x='r', y='k_eff', hue='stiffness_param', palette='viridis')
+plt.title("Effective Homogeneity Degree vs Distance")
+plt.ylim(-20, 10) # Clip singularities
+plt.ylabel("k_eff = (r * V') / V")
+plt.xlabel("Distance r")
+plt.show()
+
+# 2. Corresponding States Check
+# Plot k_eff vs (r / re)
+# If the curves align, we have found the invariant representation.
+df['reduced_r'] = df['r'] / df['re']
+plt.figure(figsize=(10,6))
+sns.scatterplot(data=df, x='reduced_r', y='k_eff', hue='stiffness_param', palette='viridis')
+plt.title("Checking for Corresponding States Scaling")
+plt.xlabel("Reduced Distance (r/re)")
+plt.show()
+\end{lstlisting}
+
+\end{document}
